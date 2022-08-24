@@ -14,7 +14,7 @@ public class Reservation {
     @Id
     @Column(name="id")
     private final String id;
-    @Column(name="partySize")
+    @Column(name="partysize")
     private int partySize;
     @Column(name="timeslot")
     private String timeslot;
@@ -25,7 +25,7 @@ public class Reservation {
 
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "customerId",referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "customer_id",referencedColumnName = "id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Customer customer;
 
