@@ -17,20 +17,23 @@ public class CustomerController {
     public String getDashboard(){
         return "Welcome to Restaurant Reservation Website!";
     }
+    //Page for Administrator
     @RequestMapping(value = "/admin/hello",method = RequestMethod.GET)
     public String adminHello(){
         return "Hello, Admin!";
     }
+    @RequestMapping(value = "/admin/allCustomers",method = RequestMethod.GET)
+    public List<Customer> getAllCustomers(){
+        return customerService.getAllCustomers();
+    }
+
+
+    //Page for Users
     @RequestMapping(value = "/user/hello",method = RequestMethod.GET)
     public String userHello(){
         return "Hello, User!";
     }
 
-
-    @RequestMapping(value = "/admin/allCustomers",method = RequestMethod.GET)
-    public List<Customer> getAllCustomers(){
-        return customerService.getAllCustomers();
-    }
     @RequestMapping(value="customer", method = RequestMethod.GET)
     public Customer getCustomerByEmail(@RequestParam(value = "email") String email) {
         return customerService.getCustomerByEmail(email);
@@ -39,7 +42,6 @@ public class CustomerController {
     public List<Customer> getCustomerByName(@PathVariable(value = "name") String name){
         return customerService.getCustomerByName(name);
     }
-
     @RequestMapping(value = "customer/new",method = RequestMethod.POST)
     public String createNewCustomer(@RequestBody Customer customer){
         customerService.createCustomer(customer);

@@ -31,11 +31,20 @@ public class ReservationController {
         return reservationService.getAllReservations();
     }
 
+
+    @RequestMapping(value = "reservation/update", method = RequestMethod.PUT)
+    public String updateReservationsById(@RequestParam(value = "id") String id,
+                                         @RequestParam(value = "party_size") int partySize,
+                                         @RequestParam(value = "timeslot") String timeslot ) {
+        reservationService.updateReservationById(id,partySize,timeslot);
+        return "Successfully update the reservation. id: "+id;
+    }
     @RequestMapping(value = "reservation/delete",method = RequestMethod.DELETE)
     public String deleteReservationById(@RequestParam(value = "id") String id){
         reservationService.deleteReservationById(id);
         return "Delete the reservation successfully. ID: " + id;
     }
+
 //    Reservation createReservation(int partySize, String timeslot);
 //
 //

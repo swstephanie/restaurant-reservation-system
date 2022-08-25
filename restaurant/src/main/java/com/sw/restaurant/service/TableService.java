@@ -1,11 +1,25 @@
 package com.sw.restaurant.service;
 
 import com.sw.restaurant.pojo.DiningTable;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class TableService implements TableServiceInterface {
 
     @Override
-    public DiningTable createTables(int partySize, int num) {
+    public List<DiningTable> createTables(int partySize, int num) {
+        return null;
+    }
+
+    @Override
+    public List<DiningTable> getAllTables() {
+        return null;
+    }
+
+    @Override
+    public List<DiningTable> getAllAvailableTables() {
         return null;
     }
 
@@ -14,13 +28,5 @@ public class TableService implements TableServiceInterface {
 
     }
 
-    @Override
-    public DiningTable getAllTables() {
-        return null;
-    }
 
-    @Override
-    public DiningTable getAllAvailableTables() {
-        return null;
-    }
 }
