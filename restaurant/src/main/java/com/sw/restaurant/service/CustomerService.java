@@ -3,6 +3,9 @@ package com.sw.restaurant.service;
 import com.sw.restaurant.dao.CustomerRepository;
 import com.sw.restaurant.pojo.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -112,5 +115,16 @@ public class CustomerService implements CustomerServiceInterface{
             return customerList;
         } else throw new RuntimeException("Get customers failed. Customer not found! name: "+name);
 
+    }
+
+    @Override
+    public Page<Customer> getAllCustomerPagination(int page, int size) {
+        Sort sort = Sort.by("email");
+        sort.descending();
+        return customerRepository.findAll(PageRequest.of(page,size,sort));
+    }
+    @Override
+    public Page<Customer> getAllByCustomerNamePagination(String name, int page, int size) {
+        return customerRepository.getAllByCustomerName(name, PageRequest.of(page,size));
     }
 }

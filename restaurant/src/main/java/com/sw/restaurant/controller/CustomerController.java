@@ -3,6 +3,7 @@ package com.sw.restaurant.controller;
 import com.sw.restaurant.pojo.Customer;
 import com.sw.restaurant.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -25,6 +26,11 @@ public class CustomerController {
     @RequestMapping(value = "/admin/allCustomers",method = RequestMethod.GET)
     public List<Customer> getAllCustomers(){
         return customerService.getAllCustomers();
+    }
+    @RequestMapping(value = "/admin/allCustomers/page",method = RequestMethod.GET)
+    public Page<Customer> getAllCustomersPagination(@RequestParam(value = "size") Integer size,
+                                                    @RequestParam(value = "page") Integer page){
+        return customerService.getAllCustomerPagination(page, size);
     }
 
 

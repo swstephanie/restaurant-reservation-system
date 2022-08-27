@@ -1,9 +1,7 @@
 package com.sw.restaurant.pojo;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -25,6 +23,8 @@ public class Customer implements Comparable<Customer>{
     private int points;
     @Column(name="cellphone")
     private String cellphone;
+
+
 
     public Customer() {
         this.id = UUID.randomUUID().toString();
@@ -82,6 +82,7 @@ public class Customer implements Comparable<Customer>{
     public void setCellphone(String cellphone) {
         this.cellphone = cellphone;
     }
+
 
     @Override
     public String toString() {

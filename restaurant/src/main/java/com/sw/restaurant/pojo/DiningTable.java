@@ -10,16 +10,16 @@ import javax.persistence.Table;
 public class DiningTable {
     @Id
     @Column(name="id")
-    private String tableId;
+    private String table_id;
     @Column(name="capacity")
     private int capacity;
 
     public String getTableId() {
-        return tableId;
+        return table_id;
     }
 
     public void setTableId(String tableId) {
-        this.tableId = tableId;
+        this.table_id = tableId;
     }
 
     public int getCapacity() {

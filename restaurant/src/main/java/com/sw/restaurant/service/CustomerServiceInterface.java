@@ -1,6 +1,7 @@
 package com.sw.restaurant.service;
 
 import com.sw.restaurant.pojo.Customer;
+import org.springframework.data.domain.Page;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ public interface CustomerServiceInterface {
     Customer getCustomerByEmail(String email);
     List<Customer> getAllCustomers();
     List<Customer> getCustomerByName(String name);
-
+    Page<Customer> getAllCustomerPagination(int page, int size);
+    Page<Customer> getAllByCustomerNamePagination(String name, int page, int size);
 
 }

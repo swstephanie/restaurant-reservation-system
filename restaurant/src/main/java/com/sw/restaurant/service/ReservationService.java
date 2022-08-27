@@ -17,7 +17,7 @@ public class ReservationService implements ReservationServiceInterface{
     public Reservation createReservation(int partySize, String timeslot) {
         //Check if the reservation is available
         Reservation reservation = new Reservation();
-        reservation.setPartySize(partySize);
+        reservation.setParty_size(partySize);
         reservation.setTimeslot(timeslot);
         reservationRepository.save(reservation);
         return reservation;
@@ -40,7 +40,7 @@ public class ReservationService implements ReservationServiceInterface{
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
         if(optionalReservation.isPresent()){
             Reservation reservation = optionalReservation.get();
-            reservation.setPartySize(partySize);
+            reservation.setParty_size(partySize);
             reservation.setTimeslot(timeslot);
             reservationRepository.save(reservation);
         } else throw new RuntimeException("Update reservation failed. id: " + id);
@@ -62,7 +62,7 @@ public class ReservationService implements ReservationServiceInterface{
     @Override
     public List<Reservation> getAllReservations() {
         List<Reservation> reservationList = reservationRepository.findAll();
-        if(!reservationList.isEmpty())
+        if(reservationList.isEmpty())
             throw new RuntimeException("Get reservations failed. No reservation in database. ");
         else return reservationList;
 

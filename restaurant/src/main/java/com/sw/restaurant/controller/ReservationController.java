@@ -14,6 +14,10 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @RequestMapping(value = "allReservations", method = RequestMethod.GET)
+    public List<Reservation> getAllReservations(){
+        return reservationService.getAllReservations();
+    }
     @RequestMapping(value = "/reservation/new", method = RequestMethod.GET)
     public String makeReservation(){
         return "success";
@@ -26,10 +30,7 @@ public class ReservationController {
     public List<Reservation> getReservationByCustomerName(@RequestParam(value = "customer_name") String customer_name){
         return reservationService.getReservationByCustomerName(customer_name);
     }
-    @RequestMapping(value = "allReservations", method = RequestMethod.GET)
-    public List<Reservation> getAllReservations(){
-        return reservationService.getAllReservations();
-    }
+
 
 
     @RequestMapping(value = "reservation/update", method = RequestMethod.PUT)

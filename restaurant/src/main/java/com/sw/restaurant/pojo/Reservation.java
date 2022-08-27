@@ -14,21 +14,20 @@ public class Reservation {
     @Id
     @Column(name="id")
     private final String id;
-    @Column(name="partysize")
-    private int partySize;
+    @Column(name="table_id")
+    private String table_id;
+//    @Column(name="customer_id")
+//    private String customer_id;
+    @Column(name="party_size")
+    private int party_size;
     @Column(name="timeslot")
     private String timeslot;
-    @Column(name="cellphone")
-    private String cellphone;
     @Column(name="notes")
     private String notes;
 
-
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "customer_id",referencedColumnName = "id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne
+    @JoinColumn(name = "customer_id",referencedColumnName = "id")
     private Customer customer;
-
 
     public Reservation() {
 
@@ -40,20 +39,33 @@ public class Reservation {
         this.id = sb.toString();
     }
 
-    public Customer getCustomer() {
-        return customer;
+
+    public String getId() {
+        return id;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+//    public String getCustomer_id() {
+//        return customer_id;
+//    }
+//
+//    public void setCustomer_id(String customer_id) {
+//        this.customer_id = customer_id;
+//    }
+
+    public String getTable_id() {
+        return table_id;
     }
 
-    public int getPartySize() {
-        return partySize;
+    public void setTable_id(String table_id) {
+        this.table_id = table_id;
     }
 
-    public void setPartySize(int partySize) {
-        this.partySize = partySize;
+    public int getParty_size() {
+        return party_size;
+    }
+
+    public void setParty_size(int party_size) {
+        this.party_size = party_size;
     }
 
     public String getTimeslot() {
@@ -64,13 +76,6 @@ public class Reservation {
         this.timeslot = timeslot;
     }
 
-    public String getCellphone() {
-        return cellphone;
-    }
-
-    public void setCellphone(String cellphone) {
-        this.cellphone = cellphone;
-    }
 
     public String getNotes() {
         return notes;
@@ -78,5 +83,14 @@ public class Reservation {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
