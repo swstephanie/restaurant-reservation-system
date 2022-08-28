@@ -16,7 +16,6 @@ public interface CustomerRepository extends JpaRepository<Customer,String> {
 
     Optional<Customer> findByEmail(String email);
     List<Customer> findByCustomerName(String customerName);
-    void deleteByEmail(String email);
     Page<Customer> getAllByCustomerName(String name,Pageable pageable);
 
 

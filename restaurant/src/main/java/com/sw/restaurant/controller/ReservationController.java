@@ -18,9 +18,11 @@ public class ReservationController {
     public List<Reservation> getAllReservations(){
         return reservationService.getAllReservations();
     }
-    @RequestMapping(value = "/reservation/new", method = RequestMethod.GET)
-    public String makeReservation(){
-        return "success";
+    @RequestMapping(value = "/reservation/new", method = RequestMethod.POST)
+    public String makeReservation(@RequestParam(value = "email") String customer_email, @RequestBody Reservation reservation){
+        Reservation r = reservationService.createReservationByEmail(customer_email, reservation);
+        if(r!=null) return reservation.toString();
+        else return "No suitable tables are available now.";
     }
     @RequestMapping(value = "reservation/byId",method = RequestMethod.GET)
     public Reservation getReservationById(@RequestParam(value = "id") String id){
@@ -34,11 +36,10 @@ public class ReservationController {
 
 
     @RequestMapping(value = "reservation/update", method = RequestMethod.PUT)
-    public String updateReservationsById(@RequestParam(value = "id") String id,
-                                         @RequestParam(value = "party_size") int partySize,
-                                         @RequestParam(value = "timeslot") String timeslot ) {
-        reservationService.updateReservationById(id,partySize,timeslot);
-        return "Successfully update the reservation. id: "+id;
+    public String updateReservationsById(@RequestBody Reservation reservation) throws IllegalAccessException {
+        Reservation res = reservationService.updateReservation(reservation);
+        if(res ==null) return "No suitable tables are available now. Please change a timeslot";
+        else return "Successfully update the reservation. id: "+reservation.getId();
     }
     @RequestMapping(value = "reservation/delete",method = RequestMethod.DELETE)
     public String deleteReservationById(@RequestParam(value = "id") String id){

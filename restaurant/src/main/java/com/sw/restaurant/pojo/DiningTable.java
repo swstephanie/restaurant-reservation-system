@@ -5,21 +5,21 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table
+@Table(name="diningtable")
 @Entity
 public class DiningTable {
     @Id
     @Column(name="id")
-    private String table_id;
+    private String id;
     @Column(name="capacity")
     private int capacity;
 
-    public String getTableId() {
-        return table_id;
+    public String getId() {
+        return id;
     }
 
-    public void setTableId(String tableId) {
-        this.table_id = tableId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getCapacity() {
@@ -28,5 +28,13 @@ public class DiningTable {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    @Override
+    public String toString() {
+        return "DiningTable{" +
+                "id='" + id + '\'' +
+                ", capacity=" + capacity +
+                '}';
     }
 }

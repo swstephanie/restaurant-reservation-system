@@ -35,22 +35,17 @@ public class Reservation {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmSSS");
         String dateStr = sdf.format(calendar.getTime());
         StringBuilder sb = new StringBuilder(dateStr);
-        sb.append(String.valueOf((int) 10* Math.random()));
+        int val = new Random().nextInt(10);
+        sb.append(String.valueOf(val));
         this.id = sb.toString();
     }
+
 
 
     public String getId() {
         return id;
     }
 
-//    public String getCustomer_id() {
-//        return customer_id;
-//    }
-//
-//    public void setCustomer_id(String customer_id) {
-//        this.customer_id = customer_id;
-//    }
 
     public String getTable_id() {
         return table_id;
@@ -92,5 +87,17 @@ public class Reservation {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id='" + id + '\'' +
+                ", table_id='" + table_id + '\'' +
+                ", party_size=" + party_size +
+                ", timeslot='" + timeslot + '\'' +
+                ", notes='" + notes + '\'' +
+                ", customer=" + customer +
+                '}';
     }
 }

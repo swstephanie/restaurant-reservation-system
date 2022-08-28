@@ -13,10 +13,7 @@ public interface CustomerServiceInterface {
      Customer createCustomer(Customer customer);
 
     void deleteCustomerByEmail(String email);
-    Customer updateCustomerName(String email, String customerName);
-    Customer updateCustomerDob(String email, Date dob);
-    Customer updateCustomerGender(String email, String gender);
-    Customer updateCustomerPoints(String email, int points);
+    Customer updateCustomerInfo(Customer customer) throws IllegalAccessException;
     Customer getCustomerByEmail(String email);
     List<Customer> getAllCustomers();
     List<Customer> getCustomerByName(String name);

@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -22,73 +23,50 @@ public class CustomerService implements CustomerServiceInterface{
     public Customer createCustomer(Customer customer) {
         String email = customer.getEmail();
         Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
-        if(!optionalCustomer.isPresent())
+        if(optionalCustomer.isPresent())
             throw new RuntimeException("Create customer failed! The customer email has already existed. email: " + email);
-        Customer customer1 = new Customer();
-        customer1.setEmail(email);
-        customer1.setDob(customer.getDob());
-        customer1.setGender(customer.getGender());
-        customer1.setCustomerName(customer.getCustomerName());
-        customer1.setPoints(0);
-        customer1.setCellphone(customer.getCellphone());
-        customerRepository.save(customer1);
-        return customer1;
+//        Customer customer1 = new Customer();
+//        customer1.setEmail(email);
+//        customer1.setDob(customer.getDob());
+//        customer1.setGender(customer.getGender());
+//        customer1.setCustomerName(customer.getCustomerName());
+//        customer1.setPoints(0);
+//        customer1.setCellphone(customer.getCellphone());
+        customerRepository.save(customer);
+        return customer;
     }
 
     @Override
     public void deleteCustomerByEmail(String email) {
         Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
-        if(optionalCustomer.isPresent()) customerRepository.deleteByEmail(email);
+        if(optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customerRepository.deleteById(customer.getId());
+        }
         else throw new RuntimeException("Delete customer failed because email address does not exist! email: "+email);
 
     }
 
     @Override
-    public Customer updateCustomerName(String email, String customerName) {
-        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+    public Customer updateCustomerInfo(Customer customer) throws IllegalAccessException{
+        if (customer.getEmail()==null) throw new RuntimeException("Please provide customer email.");
+        Optional<Customer> optionalCustomer = customerRepository.findByEmail(customer.getEmail());
         if(optionalCustomer.isPresent()){
-            Customer customer = optionalCustomer.get();
-            customer.setCustomerName(customerName);
-            customerRepository.save(customer);
-            return customer;
-        } else throw new RuntimeException("Update customer name failed because email address does not exist! email: "+email);
-    }
+            Customer old = optionalCustomer.get();
+            Field[] fields = customer.getClass().getDeclaredFields();
+            for(Field field: fields) {
+                field.setAccessible(true);
+                if(field.get(customer)!=null && (!field.getName().equals("id"))) {
+                    field.set(old,field.get(customer));
+                }
+            }
+            customerRepository.save(old);
+            return old;
 
-    @Override
-    public Customer updateCustomerDob(String email, Date dob) {
-        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
-        if(optionalCustomer.isPresent()){
-            Customer customer = optionalCustomer.get();
-            customer.setDob(dob);
-            customerRepository.save(customer);
-            return customer;
-        } else throw new RuntimeException("Update customer dob failed because email address does not exist! email: "+email);
+        } else throw new RuntimeException("Update customer name failed because email address does not exist! email: "+ customer.getEmail());
 
     }
 
-    @Override
-    public Customer updateCustomerGender(String email, String gender) {
-        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
-        if(optionalCustomer.isPresent()){
-            Customer customer = optionalCustomer.get();
-            customer.setGender(gender);
-            customerRepository.save(customer);
-            return customer;
-        } else throw new RuntimeException("Update customer gender failed because email address does not exist! email: "+email);
-
-    }
-
-    @Override
-    public Customer updateCustomerPoints(String email, int points) {
-        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
-        if(optionalCustomer.isPresent()){
-            Customer customer = optionalCustomer.get();
-            customer.setPoints(points);
-            customerRepository.save(customer);
-            return customer;
-        } else throw new RuntimeException("Update customer dob failed because email address does not exist! email: "+email);
-
-    }
     @Override
     public List<Customer> getAllCustomers() {
 

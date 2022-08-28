@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface ReservationServiceInterface {
 
-    Reservation createReservation(int partySize, String timeslot);
+    Reservation createReservationByEmail(String email, Reservation reservation);
 
 
     void deleteReservationById(String id);
 
-    void updateReservationById(String id, int partySize, String timeslot);
+    Reservation updateReservation(Reservation reservation) throws IllegalAccessException;
     Reservation getReservationById(String id);
     List<Reservation> getReservationByCustomerName(String customerName);
     List<Reservation> getAllReservations();
