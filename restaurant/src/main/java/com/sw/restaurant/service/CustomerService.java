@@ -1,8 +1,12 @@
 package com.sw.restaurant.service;
 
+import com.mysql.cj.log.Log;
 import com.sw.restaurant.dao.CustomerRepository;
 import com.sw.restaurant.pojo.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,19 +23,12 @@ public class CustomerService implements CustomerServiceInterface{
     private CustomerRepository customerRepository;
 
     @Override
-    //public Customer createCustomer(String customerName, String email, Date dob, String gender, String cellphone) {
+    @Cacheable(cacheNames = "customer",key = "#result.id")
     public Customer createCustomer(Customer customer) {
         String email = customer.getEmail();
         Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
         if(optionalCustomer.isPresent())
             throw new RuntimeException("Create customer failed! The customer email has already existed. email: " + email);
-//        Customer customer1 = new Customer();
-//        customer1.setEmail(email);
-//        customer1.setDob(customer.getDob());
-//        customer1.setGender(customer.getGender());
-//        customer1.setCustomerName(customer.getCustomerName());
-//        customer1.setPoints(0);
-//        customer1.setCellphone(customer.getCellphone());
         customerRepository.save(customer);
         return customer;
     }

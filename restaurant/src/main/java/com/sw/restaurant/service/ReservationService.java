@@ -7,6 +7,9 @@ import com.sw.restaurant.pojo.Customer;
 import com.sw.restaurant.pojo.DiningTable;
 import com.sw.restaurant.pojo.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -38,6 +41,7 @@ public class ReservationService implements ReservationServiceInterface{
         else return null;
     }
     @Override
+    @Cacheable(cacheNames = "reservation",key = "#result.id")
     public Reservation createReservationByEmail(String email, Reservation reservation) {
         //Get customer_id
         Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
@@ -60,6 +64,7 @@ public class ReservationService implements ReservationServiceInterface{
     }
 
     @Override
+    @CacheEvict(cacheNames = "reservation",key = "#id")
     public void deleteReservationById(String id) {
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
         if(optionalReservation.isPresent()){
@@ -70,6 +75,7 @@ public class ReservationService implements ReservationServiceInterface{
     }
 
     @Override
+    @CachePut(cacheNames = "reservation",key = "#reservation.id")
     public Reservation updateReservation(Reservation reservation) throws IllegalAccessException {
         if(reservation.getId()==null) throw new RuntimeException("Update reservation failed. Please provide reservation id. ");
 
@@ -97,6 +103,7 @@ public class ReservationService implements ReservationServiceInterface{
     }
 
     @Override
+    @Cacheable(cacheNames = "reservation", key="#id")
     public Reservation getReservationById(String id) {
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
         if(optionalReservation.isPresent()){
