@@ -47,8 +47,8 @@ public class CustomerController {
     public List<Customer> getCustomerByName(@PathVariable(value = "name") String name){
         return customerService.getCustomerByName(name);
     }
-    @RequestMapping(value = "customer/new",method = RequestMethod.POST)
-    public Customer createNewCustomer(@RequestBody Customer customer){
+    @RequestMapping(value = "customer/signup",method = RequestMethod.POST)
+    public Customer createNewCustomer(@RequestBody Customer customer) throws IllegalAccessException {
         return customerService.createCustomer(customer);
     }
 

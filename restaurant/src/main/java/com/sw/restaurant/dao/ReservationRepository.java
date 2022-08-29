@@ -20,4 +20,5 @@ public interface ReservationRepository extends JpaRepository<Reservation,String>
 
 
     List<Reservation> findAllByTimeslot(String timeslot);
+    //List<Reservation> findAllByTimeslotIsBetween()
 }

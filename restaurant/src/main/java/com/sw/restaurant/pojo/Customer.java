@@ -1,4 +1,7 @@
 package com.sw.restaurant.pojo;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -10,11 +13,12 @@ import java.util.UUID;
 public class Customer implements Comparable<Customer>{
     @Id
     @Column(name="id")
-    private final String id;
+    private String id;
     @Column(name="customer_name")
     private String customerName;
     @Column(name="email")
     private String email;
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name="dob")
     private Date dob;
     @Column(name="gender")
@@ -23,13 +27,19 @@ public class Customer implements Comparable<Customer>{
     private int points;
     @Column(name="cellphone")
     private String cellphone;
+    @Column(name = "password")
+    @JsonIgnore
+    private String password;
 
 
 
     public Customer() {
-        this.id = UUID.randomUUID().toString();
+        setId();
     }
 
+    public void setId() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public String getId() {
         return id;
@@ -83,6 +93,13 @@ public class Customer implements Comparable<Customer>{
         this.cellphone = cellphone;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {

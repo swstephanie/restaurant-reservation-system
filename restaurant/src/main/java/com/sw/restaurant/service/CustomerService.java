@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -24,11 +25,22 @@ public class CustomerService implements CustomerServiceInterface{
 
     @Override
     @Cacheable(cacheNames = "customer",key = "#result.id")
-    public Customer createCustomer(Customer customer) {
+    public Customer createCustomer(Customer customer) throws IllegalAccessException {
+        Field[] fields = customer.getClass().getDeclaredFields();
+        for(Field field: fields) {
+            field.setAccessible(true);
+            if((!field.getName().equalsIgnoreCase("id")) && (!field.getName().equalsIgnoreCase("id")) && field.get(customer) == null)
+                throw new RuntimeException("Create customer failed! Please provide more info about the new customer.");
+        }
+
         String email = customer.getEmail();
         Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
         if(optionalCustomer.isPresent())
             throw new RuntimeException("Create customer failed! The customer email has already existed. email: " + email);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String pw = encoder.encode(customer.getPassword());
+        customer.setPassword(pw);
+        customer.setId();
         customerRepository.save(customer);
         return customer;
     }
@@ -53,7 +65,7 @@ public class CustomerService implements CustomerServiceInterface{
             Field[] fields = customer.getClass().getDeclaredFields();
             for(Field field: fields) {
                 field.setAccessible(true);
-                if(field.get(customer)!=null && (!field.getName().equals("id"))) {
+                if(field.get(customer)!=null && (!field.getName().equalsIgnoreCase("id"))) {
                     field.set(old,field.get(customer));
                 }
             }

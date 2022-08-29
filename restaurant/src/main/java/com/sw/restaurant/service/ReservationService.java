@@ -41,7 +41,7 @@ public class ReservationService implements ReservationServiceInterface{
         else return null;
     }
     @Override
-    @Cacheable(cacheNames = "reservation",key = "#result.id")
+    @Cacheable(cacheNames = "reservation",key = "#result.id",condition = "#result!=null")
     public Reservation createReservationByEmail(String email, Reservation reservation) {
         //Get customer_id
         Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
@@ -58,7 +58,6 @@ public class ReservationService implements ReservationServiceInterface{
             reservationRepository.save(reservation);
             return reservation;
         } else return null;
-
             //throw new RuntimeException("No suitable tables are available now.");
 
     }

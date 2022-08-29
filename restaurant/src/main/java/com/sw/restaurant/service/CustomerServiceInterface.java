@@ -10,7 +10,7 @@ public interface CustomerServiceInterface {
 
     //Customer createCustomer(String customerName, String email, Date dob, String gender, String cellphone);
 
-     Customer createCustomer(Customer customer);
+     Customer createCustomer(Customer customer) throws IllegalAccessException;
 
     void deleteCustomerByEmail(String email);
     Customer updateCustomerInfo(Customer customer) throws IllegalAccessException;
