@@ -24,7 +24,7 @@ public class CustomerService implements CustomerServiceInterface{
     private CustomerRepository customerRepository;
 
     @Override
-    @Cacheable(cacheNames = "customer",key = "#result.id")
+    //@Cacheable(cacheNames = "customer",key = "#result.id")
     public Customer createCustomer(Customer customer) throws IllegalAccessException {
         Field[] fields = customer.getClass().getDeclaredFields();
         for(Field field: fields) {
@@ -40,7 +40,6 @@ public class CustomerService implements CustomerServiceInterface{
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String pw = encoder.encode(customer.getPassword());
         customer.setPassword(pw);
-        customer.setId();
         customerRepository.save(customer);
         return customer;
     }
@@ -65,8 +64,11 @@ public class CustomerService implements CustomerServiceInterface{
             Field[] fields = customer.getClass().getDeclaredFields();
             for(Field field: fields) {
                 field.setAccessible(true);
-                if(field.get(customer)!=null && (!field.getName().equalsIgnoreCase("id"))) {
-                    field.set(old,field.get(customer));
+                if(field.get(customer)!=null && (!field.getName().equalsIgnoreCase("id")) && (!field.getName().equalsIgnoreCase("password"))) {
+                    field.set(old, field.get(customer));
+                } else if (field.getName().equalsIgnoreCase("password")) {
+                    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                    field.set(old,encoder.encode((String) field.get(customer)));
                 }
             }
             customerRepository.save(old);

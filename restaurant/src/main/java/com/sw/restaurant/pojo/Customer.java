@@ -1,6 +1,7 @@
 package com.sw.restaurant.pojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class Customer implements Comparable<Customer>{
     @Column(name="cellphone")
     private String cellphone;
     @Column(name = "password")
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
 
@@ -92,6 +93,7 @@ public class Customer implements Comparable<Customer>{
     public void setCellphone(String cellphone) {
         this.cellphone = cellphone;
     }
+
 
     public String getPassword() {
         return password;

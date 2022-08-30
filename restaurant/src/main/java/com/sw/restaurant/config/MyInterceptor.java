@@ -18,9 +18,9 @@ public class MyInterceptor implements HandlerInterceptor {
 //        }
         StringBuffer URL = request.getRequestURL();
         Enumeration<String> headerNames = request.getHeaderNames();
-        while(headerNames.hasMoreElements()){
-            System.out.println(headerNames.nextElement());
-        }
+//        while(headerNames.hasMoreElements()){
+//            System.out.println(headerNames.nextElement());
+//        }
         return true;
     }
 }
