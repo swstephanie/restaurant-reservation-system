@@ -1,11 +1,12 @@
 package com.sw.restaurant.controller;
 
-import com.sw.restaurant.dao.ReservationRepository;
 import com.sw.restaurant.pojo.Reservation;
 import com.sw.restaurant.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,12 +19,29 @@ public class ReservationController {
     public List<Reservation> getAllReservations(){
         return reservationService.getAllReservations();
     }
-    @RequestMapping(value = "/reservation/new", method = RequestMethod.POST)
-    public String makeReservation(@RequestParam(value = "email") String customer_email, @RequestBody Reservation reservation){
+//    @RequestMapping(value = "reservation/new", method = RequestMethod.POST)
+//    public String makeReservation(@RequestParam(value = "email") String customer_email, @RequestBody Reservation reservation){
+//        Reservation r = reservationService.createReservationByEmail(customer_email, reservation);
+//        if(r!=null) return reservation.toString();
+//
+//        return "No suitable tables are available now.";
+//    }
+    @PostMapping(value = "reservation/new")
+    public String newReservation(HttpServletRequest request) {
+        String customer_email = request.getParameter("email");
+        Reservation reservation = new Reservation();
+        String timeslot = request.getParameter("timeslot");
+        int party_size = Integer.parseInt(request.getParameter("party_size"));
+        String notes = request.getParameter("notes");
+        reservation.setTimeslot(timeslot);
+        reservation.setParty_size(party_size);
+        reservation.setNotes(notes);
         Reservation r = reservationService.createReservationByEmail(customer_email, reservation);
-        if(r!=null) return reservation.toString();
-        else return "No suitable tables are available now.";
+        if(r!=null) {return String.format("<h1>Reservation Success!!</h1> <h2>Table Id is: %s, </h2> <h2> Reservation Id is: %s</h2>",r.getTable_id(),r.getId());}
+        return "<h1>No suitable tables are available now.</h1>";
+
     }
+
     @RequestMapping(value = "reservation/byId",method = RequestMethod.GET)
     public Reservation getReservationById(@RequestParam(value = "id") String id){
         return reservationService.getReservationById(id);

@@ -16,9 +16,9 @@ public class RestaurantFilter implements Filter {
         String method = httpServletRequest.getMethod();
         StringBuffer URL = httpServletRequest.getRequestURL();
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
-        while(headerNames.hasMoreElements()){
-            System.out.println(headerNames.nextElement());
-        }
+//        while(headerNames.hasMoreElements()){
+//            System.out.println(headerNames.nextElement());
+//        }
         filterChain.doFilter(servletRequest,servletResponse);
     }
 }
