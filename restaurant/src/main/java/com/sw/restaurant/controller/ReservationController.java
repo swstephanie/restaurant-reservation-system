@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,8 +28,9 @@ public class ReservationController {
 //        return "No suitable tables are available now.";
 //    }
     @PostMapping(value = "reservation/new")
-    public String newReservation(HttpServletRequest request) {
-        String customer_email = request.getParameter("email");
+    public String newReservation(HttpServletRequest request, Principal principal) {
+        //String customer_email = request.getParameter("email");
+        String customer_email = principal.getName();
         Reservation reservation = new Reservation();
         String timeslot = request.getParameter("timeslot");
         int party_size = Integer.parseInt(request.getParameter("party_size"));
@@ -37,7 +39,11 @@ public class ReservationController {
         reservation.setParty_size(party_size);
         reservation.setNotes(notes);
         Reservation r = reservationService.createReservationByEmail(customer_email, reservation);
-        if(r!=null) {return String.format("<h1>Reservation Success!!</h1> <h2>Table Id is: %s, </h2> <h2> Reservation Id is: %s</h2>",r.getTable_id(),r.getId());}
+        if(r!=null) {return String.format(
+                "<h1>Congrats! %s</h1><h1>Reservation Success!!</h1> <h2>Table Id is: %s, </h2> <h2> Reservation Id is: %s</h2>",
+                customer_email,
+                r.getTable_id(),
+                r.getId());}
         return "<h1>No suitable tables are available now.</h1>";
 
     }

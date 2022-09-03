@@ -1,0 +1,78 @@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/dashboard_styles.css}" href="../static/css/dashboard_styles.css"/>
+
+<body>
+  <div class="main-content">
+    <div class="container mt-7">
+      <!-- Table -->
+      <h2 class="mb-5">Edit your profile</h2>
+      <div class="row">
+        <div class="col-xl-8 m-auto order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">My account</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form  method="put">
+                
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-last-name">Name</label>
+                        <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Name" th:value="${user.customerName}" >
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Email address</label>
+                        <input type="email" id="input-email" disabled="true" class="form-control form-control-alternative" placeholder="jesse@example.com" th:value="${user.email}">
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-dob">Date of Birth</label>
+                        <input type="date" id="input-dob"  class="form-control form-control-alternative" placeholder="MM-dd-yyyy" th:value="${#dates.format(user.dob, 'yyyy-MM-dd')}" >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group focused">
+                        <label class="form-control-label" type="tel"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">Cellphone</label>
+                        <input id="input-cellphone" class="form-control form-control-alternative" placeholder="Cellphone" th:value="${user.cellphone}" type="text">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <button class="btn btn-lg btn-primary" type="submit">Save</button>
+              </form>
+
+            </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="row align-items-center justify-content-xl-between">
+      <div class="col-xl-6 m-auto text-center">
+        <div class="copyright">
+          <p>Restaurant Reservation System</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
