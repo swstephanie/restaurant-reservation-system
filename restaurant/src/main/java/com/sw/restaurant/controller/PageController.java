@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class PageController {
@@ -33,6 +30,7 @@ public class PageController {
 
     @GetMapping(value= {"dashboard","customer/update"})
     public String getDashboard(Principal principal, Model mode, HttpServletRequest request){
+        ///move to service tier
         StringBuffer requestURL = request.getRequestURL();
         String url = requestURL.toString();
         String email = principal.getName();
@@ -48,5 +46,7 @@ public class PageController {
             return "edit_dashboard";
         } throw new RuntimeException("The customer does not exist in our data base.");
     }
+    
+
 
 }

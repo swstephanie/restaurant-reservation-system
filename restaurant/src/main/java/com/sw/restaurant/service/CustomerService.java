@@ -12,9 +12,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
+import java.security.Principal;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +58,8 @@ public class CustomerService implements CustomerServiceInterface{
         else throw new RuntimeException("Delete customer failed because email address does not exist! email: "+email);
 
     }
+
+
 
     @Override
     public Customer updateCustomerInfo(Customer customer) throws IllegalAccessException{

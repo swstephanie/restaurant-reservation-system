@@ -64,14 +64,16 @@
                 <tr>
                   <th>Reservation ID</th>
                   <th>Table ID</th>
+                  <th>Party Size</th>
                   <th>Timeslot</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="res:${reservations}">
                   <td th:text="${res.id}"></td>
-                  <td th:text="${res.table_id}">Cell</td>
-                  <td th:text="${res.timeslot}">Cell</td>
+                  <td th:text="${res.table_id}"></td>
+                  <td th:text="${res.party_size}"></td>
+                  <td th:text="${res.timeslot}"></td>
                 </tr>
                 </tbody>
               </table>

@@ -40,7 +40,7 @@ public class ReservationController {
         reservation.setNotes(notes);
         Reservation r = reservationService.createReservationByEmail(customer_email, reservation);
         if(r!=null) {return String.format(
-                "<h1>Congrats! %s</h1><h1>Reservation Success!!</h1> <h2>Table Id is: %s, </h2> <h2> Reservation Id is: %s</h2>",
+                "<h1>Congrats! %s</h1><h1>Reservation Success!!</h1> <h2>Table Id is: %s, </h2> <h2> Reservation Id is: %s</h2> <a href=\"/dashboard\">Return to Profile <a> ",
                 customer_email,
                 r.getTable_id(),
                 r.getId());}
@@ -63,7 +63,9 @@ public class ReservationController {
     public String updateReservationsById(@RequestBody Reservation reservation) throws IllegalAccessException {
         Reservation res = reservationService.updateReservation(reservation);
         if(res ==null) return "No suitable tables are available now. Please change a timeslot";
-        else return "Successfully update the reservation. id: "+reservation.getId();
+
+
+        return "Successfully update the reservation. id: "+reservation.getId();
     }
     @RequestMapping(value = "reservation/delete",method = RequestMethod.DELETE)
     public String deleteReservationById(@RequestParam(value = "id") String id){
